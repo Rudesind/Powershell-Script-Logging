@@ -1,15 +1,14 @@
 <#
     Module : LOG.psm1
-    Updated: 10/22/2018
-    Author : Configuration Management
+    Updated: 11/06/2018
+    Author : Zach Nybo <zach.nybo@gmail.com>
     Version: 1.0
-    Documentation: LOG.md
 
     Summary:
     This module is used to handle all functions related to logging scripting
     actions. See the documentation for additional details.
 
-    Disclosure: 
+    Disclosure:
     The idea for the below function was taken from the following article:
     https://stackoverflow.com/questions/7834656/create-log-file-in-powershell
 #>
@@ -20,24 +19,23 @@ Function Initialize-Log {
         This function initializes a log file. Note, the file is not created.
     .Description
         This function is part of the LOG module. This module is used to to initialize and write to a specified log file. All log files are created in .log format.
-        
+
     .Notes
         Module : LOG.psm1
-        Updated: 10/22/2018
-        Author : Configuration Management
+        Updated: 11/06/2018
+        Author : Zach Nybo <zach.nybo@gmail.com>
         Version: 1.0
-        Documentation: LOG.md
 
-        Disclosure: 
+        Disclosure:
         The idea for the below function was taken from the following article:
         https://stackoverflow.com/questions/7834656/create-log-file-in-powershell
-        
+
     .Inputs
         System.String
-    
+
     .Outputs
         System.Int32
-    
+
     .Parameter Path
         The directory where the log file will be created.
 
@@ -46,27 +44,27 @@ Function Initialize-Log {
 
     .Example
         Initialize-Log "C:\" "TestLog"
-    
+
     #>
 
     # Allows the script to operate like a compiled cmdlet
     #
-    [CmdletBinding()] 
+    [CmdletBinding()]
 
     # The inner comments of the Param block will be displayed with: Get-Help ... -Detailed if no Parameter section is defined
     #
     Param(
 
         # Cannot be $null or ""
-        # Path to the file must exist 
-        # Parameter is mandatory and allows piped data 
+        # Path to the file must exist
+        # Parameter is mandatory and allows piped data
         #
-        [ValidateNotNullOrEmpty()] 
+        [ValidateNotNullOrEmpty()]
         [ValidateScript({(Test-Path $_)})]
         [Parameter(ValueFromPipeline=$True, Mandatory=$True)]
         [string] $Path,
 
-        [ValidateNotNullOrEmpty()] 
+        [ValidateNotNullOrEmpty()]
         [Parameter(Mandatory=$True)]
         [string] $Name
     )
@@ -75,7 +73,7 @@ Function Initialize-Log {
     #
     New-Variable LOG_INITIALIZE_FAILED -option Constant -value 4000
 
-    # Initialize the function 
+    # Initialize the function
     #
     Begin {
 
@@ -108,11 +106,11 @@ Function Initialize-Log {
 
         } catch {
             $errorMsg = "Error initializing file: " + $Error[0]
-            throw 
-            return $LOG_INITIALIZE_FAILED 
+            throw
+            return $LOG_INITIALIZE_FAILED
         }
     }
-    
+
     # Exit the function
     #
     End {
@@ -126,7 +124,7 @@ Function Write-Log {
         This function writes to a defined file with a specific format.
     .Description
         This function is part of the LOG module. This module is used to to initialize and write to a specified log file.
-        
+
     .Notes
         Module : LOG.psm1
         Updated: 10/22/2018
@@ -134,27 +132,27 @@ Function Write-Log {
         Version: 1.0
         Documentation: LOG.md
 
-        Disclosure: 
+        Disclosure:
         The idea for the below function was taken from the following article:
         https://stackoverflow.com/questions/7834656/create-log-file-in-powershell
-        
+
     .Inputs
         System.String
-    
+
     .Outputs
-        System.Int32 
-    
+        System.Int32
+
     .Parameter File
         The log message to write
 
     .Example
         Write-Log "Beginning the process..."
-    
+
     #>
 
     # Allows the script to operate like a compiled cmdlet
     #
-    [CmdletBinding()] 
+    [CmdletBinding()]
 
     # The inner comments of the Param block will be displayed with: Get-Help ... -Detailed if no Parameter section is defined
     #
@@ -162,9 +160,9 @@ Function Write-Log {
 
         # Cannot be $null or ""
         #
-        [ValidateNotNullOrEmpty()] 
+        [ValidateNotNullOrEmpty()]
 
-        # Parameter is mandatory and allows piped data 
+        # Parameter is mandatory and allows piped data
         #
         [Parameter(ValueFromPipeline=$True, Mandatory=$True)]
 
@@ -175,7 +173,7 @@ Function Write-Log {
     #
     New-Variable LOG_WRITE_FAILED -option Constant -value 4000
 
-    # Initialize the function 
+    # Initialize the function
     #
     Begin {
 
@@ -185,7 +183,7 @@ Function Write-Log {
             # The log time variable
             #
             [string] $timeStamp = Get-Date -Format g
-        
+
             # Friendly error message for the function
             #
             [string] $errorMsg = [string]::Empty
@@ -209,16 +207,14 @@ Function Write-Log {
 
         } catch {
             $errorMsg = "Error writing to log: " + $Error[0]
-            throw 
+            throw
             return $LOG_WRITE_FAILED
         }
     }
-    
+
     # Exit the function
     #
     End {
        return 0
     }
 }
-
-

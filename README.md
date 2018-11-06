@@ -2,11 +2,6 @@
 
 ---
 
-Module: LOG.psm1
-Updated: 11/06/2018
-Author: Zach Nybo
-Version: 1.0
-
 This module is used to create and write to a log file. This log file can used to document any type of process.
 
 Use `Get-Help` to view information for a particular function.
